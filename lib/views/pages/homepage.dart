@@ -20,7 +20,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    bool isVisible = context.watch<TodoItemLogic>().isVisible();
     List<Todos> items = context.watch<TodoItemLogic>().todoList;
+    List<Todos> unDoneItems = context.watch<TodoItemLogic>().undoneList;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -42,10 +44,10 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.symmetric(
             vertical: 32,
           ),
-          itemCount: 1 + items.length,
+          itemCount: isVisible ? items.length + 1 : unDoneItems.length + 1,
           itemBuilder: (ctx, index) {
             if (index == 0) return TodoOverview();
-            final todo = items[index - 1];
+            final todo = isVisible ? items[index - 1] : unDoneItems[index - 1];
             bool success = false;
             return GestureDetector(
               onTap: () => Navigator.of(context).push(
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
             // return TodoTile(
             //   updateTodos: _getTodos,
             //   todo: todo,
-            // );
+            // ); :
           },
           separatorBuilder: (_, __) => const Divider(),
         ),

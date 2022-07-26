@@ -13,6 +13,8 @@ class TodoOverview extends StatefulWidget {
 class _TodoOverviewState extends State<TodoOverview> {
   @override
   Widget build(BuildContext context) {
+    bool isVisible = context.watch<TodoItemLogic>().isVisible();
+    print(isVisible);
     List<Todos> items = context.watch<TodoItemLogic>().todoList;
     final completedTodoListCount = items.where((e) => e.finish == "1").length;
     return Container(
@@ -60,10 +62,14 @@ class _TodoOverviewState extends State<TodoOverview> {
             },
           ),
           IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.visibility_off,
-            ),
+            onPressed: () {
+              context.read<TodoItemLogic>().changeVisible(isVisible);
+            },
+            icon: isVisible
+                ? Icon(Icons.visibility)
+                : Icon(
+                    Icons.visibility_off,
+                  ),
           ),
         ],
       ),
