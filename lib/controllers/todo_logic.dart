@@ -31,11 +31,8 @@ class TodoItemLogic extends ChangeNotifier {
   List<Todos> _todoList = [];
   List<Todos> get todoList => _todoList;
 
-  List<Todos> _undoneList = [];
-  List<Todos> get undoneList => _undoneList;
-
-  List<Todos> _doneList = [];
-  List<Todos> get doneList => _doneList;
+  // List<Todos> _undoneList = [];
+  // List<Todos> get undoneList => _undoneList;
 
   ToDoStatusStatus _status = ToDoStatusStatus.none;
   ToDoStatusStatus get status => _status;
@@ -54,13 +51,6 @@ class TodoItemLogic extends ChangeNotifier {
       if (response.statusCode == 200) {
         _todoItemModel = await compute(_convert, response.body);
         _todoList = _todoItemModel.todos;
-        for (var i = 0; i < _todoList.length; i++) {
-          if (_todoList[i].finish == "0") {
-            _undoneList.add(_todoList[i]);
-          } else {
-            _doneList.add(_todoList[i]);
-          }
-        }
         _status = ToDoStatusStatus.success;
       } else {
         print("Error while reading data, status code: ${response.statusCode}");
@@ -147,6 +137,10 @@ class TodoItemLogic extends ChangeNotifier {
     hide = !test;
     notifyListeners();
   }
+
+  // void removeUndoneList(Todos item) {
+  //   _undoneList.remove(item);
+  // }
 }
 
 TodoModel _convert(String body) {
