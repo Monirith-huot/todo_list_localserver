@@ -22,13 +22,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     bool isVisible = context.watch<TodoItemLogic>().isVisible();
     List<Todos> items = context.watch<TodoItemLogic>().todoList;
-
+    List<Todos> sortedItems = [];
     List<Todos> unDone = [];
     for (var i = 0; i < items.length; i++) {
+      sortedItems.add(items[i]);
       if (items[i].finish == "0") {
         unDone.add(items[i]);
       }
     }
+    sortedItems.sort((a, b) {
+      //sorting in ascending order
+      return a.finish!.compareTo(b.finish!);
+    });
+    print(sortedItems);
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -51,10 +57,10 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(
                   vertical: 32,
                 ),
-                itemCount: items.length + 1,
+                itemCount: sortedItems.length + 1,
                 itemBuilder: (ctx, index) {
                   if (index == 0) return TodoOverview();
-                  final todo = items[index - 1];
+                  final todo = sortedItems[index - 1];
 
                   bool success = false;
                   return GestureDetector(
