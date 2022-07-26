@@ -137,10 +137,6 @@ class TodoItemLogic extends ChangeNotifier {
     hide = !test;
     notifyListeners();
   }
-
-  // void removeUndoneList(Todos item) {
-  //   _undoneList.remove(item);
-  // }
 }
 
 TodoModel _convert(String body) {

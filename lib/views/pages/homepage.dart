@@ -22,7 +22,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     bool isVisible = context.watch<TodoItemLogic>().isVisible();
     List<Todos> items = context.watch<TodoItemLogic>().todoList;
-    // List<Todos> unDoneItems = context.watch<TodoItemLogic>().undoneList;
+
+    List<Todos> unDone = [];
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].finish == "0") {
+        unDone.add(items[i]);
+      }
+    }
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -40,74 +46,145 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SafeArea(
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(
-            vertical: 32,
-          ),
-          itemCount: items.length + 1,
-          itemBuilder: (ctx, index) {
-            if (index == 0) return TodoOverview();
-            final todo = items[index - 1];
-            bool success = false;
-            return GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return DetailTodo(todo: todo);
-                  },
+        child: isVisible
+            ? ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 32,
                 ),
-              ),
-              child: Slidable(
-                endActionPane: ActionPane(
-                  motion: ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (ctx) async => {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return EditTodo(todo: todo);
+                itemCount: items.length + 1,
+                itemBuilder: (ctx, index) {
+                  if (index == 0) return TodoOverview();
+                  final todo = items[index - 1];
+
+                  bool success = false;
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return DetailTodo(todo: todo);
+                        },
+                      ),
+                    ),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        motion: ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (ctx) async => {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return EditTodo(todo: todo);
+                                  },
+                                ),
+                              ),
                             },
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            icon: Icons.edit,
+                            label: 'Edit',
                           ),
-                        ),
-                      },
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      icon: Icons.edit,
-                      label: 'Edit',
+                          SlidableAction(
+                            onPressed: (ctx) async => {
+                              success = await context
+                                  .read<TodoItemLogic>()
+                                  .delete(todo),
+                              if (success)
+                                {
+                                  await context.read<TodoItemLogic>().read(),
+                                }
+                              else
+                                {
+                                  // showSnackBar(context, "Something went wrong");
+                                }
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: 'Delete',
+                          ),
+                        ],
+                      ),
+                      child: (TodoTile(
+                        todo: todo,
+                      )),
                     ),
-                    SlidableAction(
-                      onPressed: (ctx) async => {
-                        success =
-                            await context.read<TodoItemLogic>().delete(todo),
-                        if (success)
-                          {
-                            await context.read<TodoItemLogic>().read(),
-                          }
-                        else
-                          {
-                            // showSnackBar(context, "Something went wrong");
-                          }
-                      },
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
-                    ),
-                  ],
+                  );
+                }
+                // return TodoTile(
+                //   updateTodos: _getTodos,
+                ,
+                separatorBuilder: (_, __) => const Divider(),
+              )
+            : ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 32,
                 ),
-                child: (TodoTile(
-                  todo: todo,
-                )),
+                itemCount: unDone.length + 1,
+                itemBuilder: (ctx, index) {
+                  if (index == 0) return TodoOverview();
+                  final todo = unDone[index - 1];
+
+                  bool success = false;
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return DetailTodo(todo: todo);
+                        },
+                      ),
+                    ),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        motion: ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (ctx) async => {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return EditTodo(todo: todo);
+                                  },
+                                ),
+                              ),
+                            },
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            icon: Icons.edit,
+                            label: 'Edit',
+                          ),
+                          SlidableAction(
+                            onPressed: (ctx) async => {
+                              success = await context
+                                  .read<TodoItemLogic>()
+                                  .delete(todo),
+                              if (success)
+                                {
+                                  await context.read<TodoItemLogic>().read(),
+                                }
+                              else
+                                {
+                                  // showSnackBar(context, "Something went wrong");
+                                }
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: 'Delete',
+                          ),
+                        ],
+                      ),
+                      child: (TodoTile(
+                        todo: todo,
+                      )),
+                    ),
+                  );
+                }
+                // return TodoTile(
+                //   updateTodos: _getTodos,
+                ,
+                separatorBuilder: (_, __) => const Divider(),
               ),
-            );
-            // return TodoTile(
-            //   updateTodos: _getTodos,
-            //   todo: todo,
-            // ); :
-          },
-          separatorBuilder: (_, __) => const Divider(),
-        ),
       ),
     );
   }
