@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list/views/pages/homepage.dart';
 
 import '../../controllers/todo_logic.dart';
 import '../../models/todo_model.dart';
@@ -156,7 +157,12 @@ class _EditTodoState extends State<EditTodo> {
                       if (success) {
                         await context.read<TodoItemLogic>().read();
                         showSnackBar(context, "Updated Successfully");
-                        Navigator.of(context).pop();
+                        Navigator.pushReplacement<void, void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => const HomePage(),
+                          ),
+                        );
                       } else {
                         showSnackBar(context, "Something went wrong");
                       }
@@ -185,7 +191,7 @@ class _EditTodoState extends State<EditTodo> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (date != null) {
-      _dateController.text = DateFormat.MMMMEEEEd().format(date);
+      _dateController.text = DateFormat.yMMMMEEEEd().format(date);
       setState(
         () => _dateController.text = _dateController.text,
       );

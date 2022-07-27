@@ -91,10 +91,10 @@ class TodoItemLogic extends ChangeNotifier {
         Uri.parse(url),
         body: item.toMap(),
       );
-      print(item.toMap());
 
       if (response.statusCode == 200) {
-        _todoList.remove(item);
+        _todoList.removeWhere((e) => e.tId == item.tId);
+        notifyListeners();
         if (response.body == "todo_deleted") {
           return true;
         }
@@ -117,8 +117,6 @@ class TodoItemLogic extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         if (response.body == "todo_updated") {
-          // _todoList.removeWhere((e) => e.tId == item.tId);
-
           return true;
         }
       } else {

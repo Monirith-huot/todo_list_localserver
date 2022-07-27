@@ -20,8 +20,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
+        // theme: ThemeData(
+        //   primarySwatch: Color.fromRGBO(62, 180, 137, 1),
+        // ),
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.teal,
         ),
         home: SplashScreen(),
       ),

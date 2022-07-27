@@ -129,6 +129,9 @@ class _AddTodoState extends State<AddTodo> {
                     },
                   ).toList(),
                 ),
+                const SizedBox(
+                  height: 50,
+                ),
                 ElevatedButton(
                   onPressed: () async {
                     if (_priority == "") {
@@ -149,6 +152,7 @@ class _AddTodoState extends State<AddTodo> {
                         // : _timeController.text,
                         finish: "0",
                       );
+
                       bool success =
                           await context.read<TodoItemLogic>().insert(item);
                       if (success) {
@@ -170,6 +174,9 @@ class _AddTodoState extends State<AddTodo> {
                   },
                   child: const Text(
                     "Add New Todo",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
