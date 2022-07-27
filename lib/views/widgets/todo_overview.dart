@@ -14,7 +14,6 @@ class _TodoOverviewState extends State<TodoOverview> {
   @override
   Widget build(BuildContext context) {
     bool isVisible = context.watch<TodoItemLogic>().isVisible();
-    print(isVisible);
     List<Todos> items = context.watch<TodoItemLogic>().todoList;
     final completedTodoListCount = items.where((e) => e.finish == "1").length;
     return Container(

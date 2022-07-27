@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Future.delayed(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       () async {
         await context.read<TodoItemLogic>().read();
         if (mounted) {
@@ -33,10 +33,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
+      backgroundColor: Colors.teal,
       body: Center(
         child: Icon(
           Icons.book_sharp,
+          color: Colors.white,
           size: 100,
         ),
       ),
