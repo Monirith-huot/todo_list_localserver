@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
               )
             : ListView.separated(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 32,
+                  vertical: 50,
                 ),
                 itemCount: unDone.length + 1,
                 itemBuilder: (ctx, index) {

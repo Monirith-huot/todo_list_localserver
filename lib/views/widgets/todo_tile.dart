@@ -22,12 +22,17 @@ class _TodoTileState extends State<TodoTile> {
         : TextDecoration.lineThrough;
 
     return ListTile(
-      title: Text(
-        widget.todo.title,
-        style: TextStyle(
-          fontSize: 18,
-          decoration: completedTextDecoration,
-          fontWeight: FontWeight.bold,
+      title: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 15,
+        ),
+        child: Text(
+          widget.todo.title,
+          style: TextStyle(
+            fontSize: 18,
+            decoration: completedTextDecoration,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       subtitle: Row(
