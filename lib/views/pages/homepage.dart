@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/models/todo_model.dart';
 import 'package:todo_list/views/pages/add_screen.dart';
@@ -30,11 +33,21 @@ class _HomePageState extends State<HomePage> {
         unDone.add(items[i]);
       }
     }
+
+    unDone.sort((a, b) {
+      //sorting in ascending order
+      return DateFormat('EEEE, MMMM dd, yyyy')
+          .parse(a.sDate!)
+          .compareTo(DateFormat('EEEE, MMMM dd, yyyy').parse(b.sDate!));
+    });
+
     sortedItems.sort((a, b) {
       //sorting in ascending order
-      return a.finish!.compareTo(b.finish!);
+      return DateFormat('EEEE, MMMM dd, yyyy')
+          .parse(a.sDate!)
+          .compareTo(DateFormat('EEEE, MMMM dd, yyyy').parse(b.sDate!));
     });
-    print(sortedItems);
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -97,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                                   .delete(todo),
                               if (success)
                                 {
-                                  await context.read<TodoItemLogic>().read(),
+                                  await context.watch<TodoItemLogic>().read(),
                                 }
                               else
                                 {

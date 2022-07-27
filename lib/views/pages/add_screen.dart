@@ -93,6 +93,8 @@ class _AddTodoState extends State<AddTodo> {
                     labelText: 'Date',
                   ),
                   onTap: _handleDatePicker,
+                  validator: (value) =>
+                      value!.trim().isEmpty ? 'Please enter a date' : null,
                 ),
                 const SizedBox(
                   height: 20,
@@ -157,6 +159,7 @@ class _AddTodoState extends State<AddTodo> {
                         _descriptionController.clear();
                         _dateController.clear();
                         _priority = "Medium";
+                        Navigator.of(context).pop();
                       } else {
                         showSnackBar(
                           context,
@@ -185,7 +188,7 @@ class _AddTodoState extends State<AddTodo> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (date != null) {
-      _dateController.text = DateFormat.MMMMEEEEd().format(date);
+      _dateController.text = DateFormat.yMMMMEEEEd().format(date);
       setState(
         () => _dateController.text = _dateController.text,
       );

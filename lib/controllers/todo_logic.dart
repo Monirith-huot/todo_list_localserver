@@ -117,6 +117,8 @@ class TodoItemLogic extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         if (response.body == "todo_updated") {
+          // _todoList.removeWhere((e) => e.tId == item.tId);
+
           return true;
         }
       } else {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../controllers/todo_logic.dart';
@@ -26,21 +27,12 @@ class _TodoTileState extends State<TodoTile> {
         style: TextStyle(
           fontSize: 18,
           decoration: completedTextDecoration,
+          fontWeight: FontWeight.bold,
         ),
       ),
       subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            widget.todo.sDescription!.length > 15
-                ? widget.todo.sDescription!.substring(0, 10) + '...'
-                : widget.todo.title,
-            style: TextStyle(
-              decoration: completedTextDecoration,
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
           Text(
             widget.todo.sDate!,
             style: TextStyle(
@@ -48,7 +40,7 @@ class _TodoTileState extends State<TodoTile> {
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 20,
           ),
           Container(
             padding: const EdgeInsets.symmetric(
